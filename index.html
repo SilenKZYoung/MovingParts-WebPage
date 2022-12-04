@@ -37,8 +37,8 @@
           <div class='row mt-1 mt-2' >
               <div class='col text-center'>
                   <p class="h6 font-weight-light">
-                  <a class="ml-4" href="https://www.ustc.edu.cn/"><span> <sup>1</sup> USTC</span></a>
-                  <a class="ml-4" href="https://ucsd.edu//"><span> <sup>2</sup> UCSD</span></a>
+                  <a class="ml-4" href="https://www.ustc.edu.cn/"><span> <sup>1</sup> University of Science and Technology of China</span></a>
+                  <a class="ml-4" href="https://ucsd.edu//"><span> <sup>2</sup> University of California, San Diego</span></a>
                   <a class="mr-4 ml-4" href="https://research.adobe.com/"><span> <sup>3</sup> Adobe Research</span></a>
                   </p>
               </div>
@@ -58,6 +58,21 @@
           </div>
       </div>
 
+      <div>
+        <hr>
+        <div class='row'>
+            <div class="container" id="network">
+              <h2>Network Architecture</h2>
+              <p style="text-align:justify">
+                Inspired by the Eulerian and Lagrangian viewpoints in fluid simulation, we design three modules to discover motion parts in a scene. The Eulerian module and the Lagrangian module observe the motion of specific spatial positions and specific particles, respectively. They both comprise a mutual mapping of a point between its position at an arbitrary time instance and its canonical configuration. The canonical module serves to reconstruct the geometry and appearance for volume rendering. Based on the particle trajectories recorded by the Lagrangian module, we can analyze the movement patterns and discover rigid parts.
+              </p>
+            </div>
+            <div class="col text-center">
+              <img src="videos/network.png" width="80%"></img>
+            </div>
+        </div>
+      </div>
+      
     <!-- results section -->
     <div>
         <hr>
