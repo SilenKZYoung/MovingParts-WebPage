@@ -44,10 +44,21 @@
               </div>
           </div>
 
+          <!-- paper code -->
+          <div class='row mt-1 mt-2' >
+            <div class='col text-center'>
+                <!-- <p class="h6 font-weight-light"> -->
+                <a class="ml-4" href="https://arxiv.org/abs/2303.05703"><span>[Paper]</span></a>
+                <a class="ml-4" href="https://github.com/SilenKZYoung/MovingParts"><span>[Code]</span></a>
+                </p>
+            </div>
+        </div>
 
+        <br />
+
+        
       <!-- Abstract section -->
       <div>
-          <hr>
           <div class='row'>
               <div class="container" id="abstract">
                 <h2>Abstract</h2>
@@ -58,29 +69,52 @@
           </div>
       </div>
 
+      <br />
+
       <div>
-        <hr>
+        <div class='row'>
+            <div class="container" id="motivation">
+              <h2>Motivation</h2>
+              <p style="text-align:justify">
+                Inspired by the Eulerian and Lagrangian viewpoints in fluid simulation, the Eulerian view observes the flow at a specific location and the Lagrangian view observes the trajectory of specific particles. These two views constitute the conversion between the world space of each temporal frame and a canonical space.
+                Previously, deformation-based dynamic NeRF relied heavily on the Eulerian perspective. While this approach enables the modeling of entire scene motion, analyzing object/part motion at different temporal moments can be impractical and challenging.
+                In contrast, the Lagrangian perspective employs particle-based representation to trace the movement of each object particle, and the resulting trajectory offers valuable insights for scene analysis.
+                Here we propose a hybrid approach that leverages both Eulerian and Lagrangian views to achieve high-quality reconstruction and meaningful scene understanding simultaneously. 
+              </p>
+            </div>
+            <div class="col text-center">
+              <img src="videos/motivation.png" width="85%"></img>
+            </div>
+        </div>
+      </div>
+
+      <br />
+      <br />
+
+      <div>
         <div class='row'>
             <div class="container" id="network">
               <h2>Network Architecture</h2>
               <p style="text-align:justify">
-                Inspired by the Eulerian and Lagrangian viewpoints in fluid simulation, we design three modules to discover motion parts in a scene. The Eulerian module and the Lagrangian module observe the motion of specific spatial positions and specific particles, respectively. They both comprise a mutual mapping of a point between its position at an arbitrary time instance and its canonical configuration. The canonical module serves to reconstruct the geometry and appearance for volume rendering. Based on the particle trajectories recorded by the Lagrangian module, we can analyze the movement patterns and discover rigid parts.
+                Our network contains three modules. The Eulerian module and the Lagrangian module observe the motion of specific spatial positions and specific particles, respectively. They both comprise a mutual mapping of a point between its position at an arbitrary time instance and its canonical configuration. The canonical module serves to reconstruct the geometry and appearance for volume rendering. Based on the particle trajectories recorded by the Lagrangian module, we can analyze the motion patterns and discover rigid parts using a motion grouping network.
               </p>
             </div>
             <div class="col text-center">
-              <img src="videos/network.png" width="80%"></img>
+              <img src="videos/network.png" width="85%"></img>
             </div>
         </div>
       </div>
-      
+
+      <br />
+      <br />
+
     <!-- results section -->
     <div>
-        <hr>
         <div class='row'>
             <div class="container" id="results">
               <h2>Results on D-NeRF Synthetic Dataset</h2>
               <p style="text-align:justify">
-                Our method enables high-quality appearance and geometry reconstruction for dynamic scenes. Also thanks to the motion-based grouping mechanism, our method is capable of overlooking motion-irrelevant characteristics in geometry and appearance and produce clean and accurate part discovery results on these realistic complex scenes. Moreover, our method works well not only on rigid-body-based scenes but also on scenes with non-rigid parts.
+                Our method enables high-quality appearance and geometry reconstruction for dynamic scenes. Also thanks to the motion-based grouping mechanism, our method is capable of overlooking motion-irrelevant characteristics in geometry and appearance and produce clean and accurate part discovery results on these realistic complex scenes.
               </p>
             </div>
             <div class="n-page video">
@@ -92,13 +126,15 @@
         </div>
     </div>
 
+    <br />
+    <br />
+
     <div>
-      <hr>
       <div class='row'>
           <div class="container" id="results">
             <h2>Application: Robotic Manipulation</h2>
             <p style="text-align:justify">
-              Our method can discover the operated parts, such as the drawer (orange), even they are largely occluded in most frames. The discovered 3D parts with their Lagrangian motion could serve as a strong prior for downstream functionality reasoning and robotic reinforcement learning tasks.
+              Our method can discover the operated parts, such as the drawer (orange), even it is largely occluded in most frames. The discovered 3D parts with their Lagrangian motion could serve as a strong prior for downstream functionality reasoning and robotic reinforcement learning tasks.
             </p>
           </div>
           <div class="n-page video">
@@ -110,13 +146,15 @@
       </div>
   </div>
 
+  <br />
+  <br />
+
   <div>
-    <hr>
     <div class='row'>
         <div class="container" id="results">
           <h2>Application: Scene Editing</h2>
           <p style="text-align:justify">
-            In addition to understanding scenes, our method can also edit scenes and generate new renderings from the scene. Here, we show the dense tracking, duplication, deletion, scaling of a specific part in a scene, and re-posing of the articulated robot arm.
+            In addition to understanding scenes, our method can also edit scenes and generate new renderings from the scene. Here, we show the dense tracking, duplication, deletion, scaling of a specific part in a scene, and re-posing of the articulated robot arm. Also we demonstrate the scalability of our method to real-world scenarios by showcasing the removal or modification of the position of specific objects in real scenes.
           </p>
         </div>
         <div class="col text-center">
@@ -125,55 +163,29 @@
     </div>
   </div>
 
-      <!-- Paper section -->
-      <div>
-        <hr>
-            <div class="container" id="paper">
-              <div class='row'>
-                <!-- <h3>Paper</h3> -->
+  <br />
+  <br />
 
-                <div class="col-sm-3">
-                  <div class="row mt-4">
-                      <a href="https://arxiv.org/abs/xxxx.xxxx" style="max-width:200px; margin-left:auto; margin-right:auto; padding-top: 20%">
-                          <img src="images/xxx.png" alt="paper-snapshot" class="img-thumbnail" width="80%" style="box-shadow: 10px 10px 5px grey;">
-                      </a>
-                  </div>
-                  <div class="mt-3">
-                    <p> Paper.</p>
-                  </div>
-                </div>
+  <div>
+    <div class='row'>
+      <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+          <h2 class="title">BibTeX</h2>
+          <pre><code>@article{movingparts2023,
+            title={MovingParts: Motion-based 3D Part Discovery in Dynamic Radiance Field},
+            author={Kaizhi Yang and Xiaoshuai Zhang and Zhiao Huang and Xuejin Chen and Zexiang Xu and Hao Su},
+            journal={arXiv:2303.05703},
+            year=2023
+        }
+    </code></pre>
+    </div>
+    
+  </div>
 
-                <!-- <h3>Supp</h3> -->
+  <br />
+  <br />
+  
 
-                <div class="col-sm-3">
-                  <div class="row mt-4">
-                      <a href="xxxx.pdf" style="max-width:200px; margin-left:auto; margin-right:auto; padding-top: 20%">
-                          <img src="images/xxx.png" alt="paper-snapshot" class="img-thumbnail" width="80%" style="box-shadow: 10px 10px 5px grey;">
-                      </a>
-                  </div>
-                  <div class="mt-3">
-                    <p> Supp.</p>
-                  </div>
-                </div>
-
-                <!-- <h3>Code</h2> -->
-                <div class="col-sm-3">
-                  <div class="row mt-4">
-                    <a href="https://github.com/SilenKZYoung/MovingParts" style="max-width:200px; margin-left:auto; margin-right:auto; padding-top: 20%">
-                      <img src="videos/github.png" alt="github" class="img-thumbnail" width="50%">
-                  </a>
-                  </div>
-                  <div class="mt-3">
-                    <p> Code.</p>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-      </div>
-
-      
       </div>
     </div>
   </div>
