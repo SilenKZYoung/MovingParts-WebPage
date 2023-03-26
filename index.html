@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="MovingParts reconstruct dynamic neural radiance fields with 3D part discovery from monocular image sequence.">
+  <meta name="keywords" content="MovingParts, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MovingParts: Motion-based 3D Part Discovery in Dynamic Radiance Field</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/dics/src/original/dics.original.css">
+  <script src="./static/dics/src/original/dics.original.js"></script>
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/dics.original.css">
+  <link rel="icon" href="./static/images/icon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <script>
+
+      document.addEventListener('DOMContentLoaded', domReady);
+
+      function domReady() {
+          new Dics({
+            container: document.querySelectorAll('.b-dics')[0],
+            linesOrientation: 'horizontal',
+            textPosition: 'top',
+            linesColor: 'rgb(75,75,75)'
+          });
+
+          new Dics({
+            container: document.querySelectorAll('.b-dics')[1],
+            linesOrientation: 'horizontal',
+            textPosition: 'top',
+            linesColor: 'rgb(75,75,75)'
+          });
+
+          new Dics({
+            container: document.querySelectorAll('.b-dics')[2],
+            linesOrientation: 'horizontal',
+            textPosition: 'top',
+            linesColor: 'rgb(75,75,75)'
+          });
+
+          new Dics({
+            container: document.querySelectorAll('.b-dics')[3],
+            linesOrientation: 'horizontal',
+            textPosition: 'top',
+            linesColor: 'rgb(75,75,75)'
+          });
+
+          new Dics({
+            container: document.querySelectorAll('.b-dics')[4],
+            linesOrientation: 'horizontal',
+            textPosition: 'top',
+            linesColor: 'rgb(75,75,75)'
+          });
+
+          new Dics({
+            container: document.querySelectorAll('.b-dics')[5],
+            linesOrientation: 'horizontal',
+            textPosition: 'top',
+          });
+          new Dics({
+            container: document.querySelectorAll('.b-dics')[6],
+            linesOrientation: 'horizontal',
+            textPosition: 'top',
+          });
+          new Dics({
+            container: document.querySelectorAll('.b-dics')[7],
+            linesOrientation: 'horizontal',
+            textPosition: 'top',
+          });
+          new Dics({
+            container: document.querySelectorAll('.b-dics')[8],
+            linesOrientation: 'horizontal',
+            textPosition: 'top',
+          });
+          new Dics({
+            container: document.querySelectorAll('.b-dics')[9],
+            linesOrientation: 'horizontal',
+            textPosition: 'top',
+          });
+          new Dics({
+            container: document.querySelectorAll('.b-dics')[10],
+            linesOrientation: 'horizontal',
+            textPosition: 'top',
+          });
+      }
+  </script>
+
+</head>
+<body>
+
+
+<section class="section">
+  <div class="container is-max-desktop " >
+    <div class="column is-centered">
+
+      <div class="column has-text-centered">
+        <h1 class="title is-1 publication-title">MovingParts: Motion-based 3D Part Discovery in Dynamic Radiance Field</h1>
+        <div class="is-size-5 publication-authors">
+          <span class="author-block">
+            <a href="https://silenkzyoung.github.io/KaizhiYang/">Kaizhi Yang</a><sup>1</sup>,</span>
+          <span class="author-block">
+            <a href="https://i.buriedjet.com/">Xiaoshuai Zhang</a><sup>2</sup>,</span>
+          <span class="author-block">
+            <a href="https://sites.google.com/view/zhiao-huang">Zhiao Huang</a><sup>2</sup>,
+          </span>
+          <span class="author-block">
+            <a href="http://staff.ustc.edu.cn/~xjchen99/">Xuejin Chen</a><sup>1</sup>,
+          </span>
+          <span class="author-block">
+            <a href="https://cseweb.ucsd.edu/~zex014/">Zexiang Xu</a><sup>3*</sup>,
+          </span>
+          <span class="author-block">
+            <a href="https://cseweb.ucsd.edu/~haosu/index.html">Hao Su</a><sup>2*</sup>,
+          </span>
+        </div>
+      </div>
+
+      <div class="is-size-5 publication-authors">
+        <span class="author-block"><sup>1</sup>University of Science and Technology of China,</span>
+        <span class="author-block"><sup>2</sup>University of California, San Diego,</span>
+        <span class="author-block"><sup>3</sup>Adobe Research</span>
+      </div>
+
+      <div class="column has-text-centered">
+        <p>
+          * Denote Equal Advisory 
+        </p>
+      </div>
+
+      <div class="column has-text-centered">
+        <div class="publication-links">
+          <!-- PDF Link. -->
+          <span class="link-block">
+            <a href="https://arxiv.org/abs/2303.05703"
+               class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                  <i class="ai ai-arxiv"></i>
+              </span>
+              <span>arXiv</span>
+            </a>
+          </span>
+          <!-- Code Link. -->
+          <span class="link-block">
+            <a href="https://github.com/SilenKZYoung/MovingParts"
+               class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                  <i class="fab fa-github"></i>
+              </span>
+              <span>Code</span>
+              </a>
+          </span>
+        </div>
+      </div>
+
+      <br>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-bouncingballs">
+          <video poster="" id="bouncingballs" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/dnerf/bouncingballs.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item lego">
+          <video poster="" id="lego" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/dnerf/lego.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item hellwarrior">
+          <video poster="" id="hellwarrior" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/dnerf/hellwarrior.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item mutant">
+          <video poster="" id="mutant" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/dnerf/mutant.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item trex">
+          <video poster="" id="trex" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/dnerf/trex.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item hook">
+          <video poster="" id="hook" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/dnerf/hook.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+    <br><br>
+
+    <!-- Video. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Overview Video</h2>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 controls
+                 preload
+                 playsinline
+                 width="100%">
+            <source src="./static/videos/overview/overview_out.mp4#t=0.001"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+    <!--/ Video. -->
+
+    <br>
+    
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We present MovingParts, a NeRF-based method for dynamic scene reconstruction and part discovery. 
+          </p>
+          <p>
+            We consider motion as an important cue for identifying parts, that all particles on the same part share the common motion pattern. 
+            From the perspective of fluid simulation, existing deformation-based methods for dynamic NeRF can be seen as parameterizing the scene motion under the Eulerian view, i.e., focusing on specific locations in space through which the fluid flows as time passes. 
+            However, it is intractable to extract the motion of constituting objects or parts using the Eulerian view representation. In this work, we introduce the dual Lagrangian view and enforce representations under the Eulerian/Lagrangian views to be cycle-consistent. 
+            Under the Lagrangian view, we parameterize the scene motion by tracking the trajectory of particles on objects. The Lagrangian view makes it convenient to discover parts by factorizing the scene motion as a composition of part-level rigid motions. 
+            Experimentally, our method can achieve fast and high-quality dynamic scene reconstruction from even a single moving camera, and the induced part-based representation allows direct applications of part tracking, animation, 3D scene editing, etc.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <img src="./static/videos/motivation.png" width="100%"></img>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <br>
+
+    <!-- Network. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-4">Network Architecture</h2>
+        <div class="content has-text-justified">
+          <p>
+            Our network contains three modules. 
+            The Eulerian module and the Lagrangian module observe the motion of specific spatial positions and specific particles, respectively. 
+            They both comprise a mutual mapping of a point between its position at an arbitrary time instance and its canonical configuration. 
+            The canonical module serves to reconstruct the geometry and appearance for volume rendering. 
+            Based on the particle trajectories recorded by the Lagrangian module, we can analyze the motion patterns and discover rigid parts using a motion grouping network.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <img src="./static/videos/network.png" width="100%"></img>
+      </div>
+    </div>
+
+    <!--/ Network. -->
+    <br>
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <!-- Robotic. -->
+        <h2 class="title is-4">Robotic Manipulation</h2>
+        <div class="content has-text-justified">
+          <p>
+            Our method can discover the operated parts, such as the drawer (orange), even it is largely occluded in most frames. 
+            The discovered 3D parts with their Lagrangian motion could serve as a strong prior for downstream functionality reasoning and robotic reinforcement learning tasks.
+          </p>
+        </div>
+
+        <div class="columns is-vcentered interpolation-panel">
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/start.png"
+                 class="interpolation-image"
+                 alt="Interpolate start reference image."/>
+            <p>Start Frame</p>
+          </div>
+          <div class="column interpolation-video-column">
+            <div id="interpolation-image-wrapper">
+              Loading...
+            </div>
+            <input class="slider is-fullwidth is-large is-info"
+                   id="interpolation-slider"
+                   step="1" min="0" max="100" value="0" type="range">
+          </div>
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/end.png"
+                 class="interpolation-image"
+                 alt="Interpolation end reference image."/>
+            <p class="is-bold">End Frame</p>
+          </div>
+        </div>
+        <!--/ Robotic. -->
+
+        <br/>
+        <!-- Editing. -->
+        <h2 class="title is-4">Scene Editing</h2>
+        <div class="content has-text-justified">
+          <p>
+            In addition to understanding scenes, our method can also edit scenes and generate new renderings from the scene. 
+            Here, we show the dense tracking, duplication, deletion, scaling of a specific part in a scene, and re-posing of the articulated robot arm. 
+            Also we demonstrate the scalability of our method to real-world scenarios by showcasing the removal or modification of the position of specific objects in real scenes.
+          </p>
+        </div>
+
+        <div class="columns is-centered">
+
+            <div class="column has-text-centered">
+                <div class="b-dics horizontal">
+                  <img id="img1" src="./static/videos/editing/Syn.png">
+                  <img id="img2" src="./static/videos/editing/Syn_tracking.png">
+                </div>
+                <p class="is-bold">Tracking</p>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="b-dics">
+                <img id="img1" src="./static/videos/editing/Syn.png">
+                <img id="img2" src="./static/videos/editing/Syn_duplication.png">
+              </div>
+              <p class="is-bold">Duplication</p>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="b-dics">
+                <img id="img1" src="./static/videos/editing/Syn.png">
+                <img id="img2" src="./static/videos/editing/Syn_removal.png">
+              </div>
+              <p class="is-bold">Removal</p>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="b-dics">
+                <img id="img1" src="./static/videos/editing/Syn.png">
+                <img id="img2" src="./static/videos/editing/Syn_rescaling.png">
+              </div>
+              <p class="is-bold">Rescaling</p>
+            </div>   
+
+            <div class="column has-text-centered">
+              <div class="b-dics">
+                <img id="img1" src="./static/videos/editing/Syn.png">
+                <img id="img2" src="./static/videos/editing/Syn_reposing.png">
+              </div>
+              <p class="is-bold">Reposing</p>
+            </div>
+
+      </div>
+
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+            <div class="b-dics horizontal">
+              <img id="img11" src="./static/videos/editing/Real1.png">
+              <img id="img12" src="./static/videos/editing/Real1_seg.png">
+            </div>
+            <p class="is-bold">Segmentation</p>
+        </div>
+
+        <div class="column has-text-centered">
+          <div class="b-dics">
+            <img id="img13" src="./static/videos/editing/Real1.png">
+            <img id="img14" src="./static/videos/editing/Real1_removal.png">
+          </div>
+          <p class="is-bold">Removal</p>
+        </div>
+
+        <div class="column has-text-centered">
+          <div class="b-dics">
+            <img id="img15" src="./static/videos/editing/Real1.png">
+            <img id="img16" src="./static/videos/editing/Real1_mod.png">
+          </div>
+          <p class="is-bold">Modification</p>
+        </div>
+
+        <div class="column has-text-centered">
+          <div class="b-dics">
+            <img id="img17" src="./static/videos/editing/Real2.png">
+            <img id="img18" src="./static/videos/editing/Real2_seg.png">
+          </div>
+          <p class="is-bold">Segmentation</p>
+        </div>   
+
+        <div class="column has-text-centered">
+          <div class="b-dics">
+            <img id="img19" src="./static/videos/editing/Real2.png">
+            <img id="img20" src="./static/videos/editing/Real2_removal.png">
+          </div>
+          <p class="is-bold">Removal</p>
+        </div>
+        
+        <div class="column has-text-centered">
+          <div class="b-dics">
+            <img id="img21" src="./static/videos/editing/Real2.png">
+            <img id="img22" src="./static/videos/editing/Real2_mod.png">
+          </div>
+          <p class="is-bold">Modification</p>
+        </div>
+      </div>
+      <!--/ Editing. -->
+
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{movingparts2023,
+      title={MovingParts: Motion-based 3D Part Discovery in Dynamic Radiance Field},
+      author={Kaizhi Yang and Xiaoshuai Zhang and Zhiao Huang and Xuejin Chen and Zexiang Xu and Hao Su},
+      journal={arXiv:2303.05703},
+      year=2023
+  }</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://arxiv.org/abs/2303.05703">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/SilenKZYoung/MovingParts" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+
+    <p style="text-align:center">
+      This template of this website was borrowed from project page of 
+      <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+    </p>
+
+  </div>
+</footer>
+
+</body>
+</html>
